@@ -1,0 +1,20 @@
+services:
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - proxy-net
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints: [node.role == worker]
+
+networks:
+  proxy-net:
+    driver: overlay
